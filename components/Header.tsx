@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Facebook, Youtube, Twitter, Instagram } from 'lucide-react';
 import { LIVE_TEXT, LOGIN_TEXT, LOGOUT_TEXT } from '../constants.ts';
 import { getExactNepaliDate } from '../utils/nepaliDate.ts';
 
@@ -49,15 +50,25 @@ const Header: React.FC<HeaderProps> = ({
           
           <div className="flex items-center space-x-4 mb-2 sm:mb-0">
             <span className="text-xs font-bold text-gray-400 uppercase">हामीलाई पछ्याउनुहोस्:</span>
-            <div className="flex space-x-2">
+            <div className="flex space-x-3">
               {facebookLink && (
                 <a href={getSafeUrl(facebookLink)} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <Facebook className="w-4 h-4 md:w-5 md:h-5" />
+                </a>
+              )}
+              {twitterLink && (
+                <a href={getSafeUrl(twitterLink)} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-sky-500 transition-colors">
+                  <Twitter className="w-4 h-4 md:w-5 md:h-5" />
                 </a>
               )}
               {youtubeLink && (
                 <a href={getSafeUrl(youtubeLink)} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-600 transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.018 3.018 0 0 0-2.122-2.136c-1.547-.417-7.734-.417-7.734-.417H9.358s-6.187 0-7.734.417a3.018 3.018 0 0 0-2.122 2.136C-.417 7.734-.417 12 0 12c-.417 4.266 0 7.734.417 7.734a3.018 3.018 0 0 0 2.122 2.136c1.547.417 7.734.417 7.734.417h6.284s6.187 0 7.734-.417a3.018 3.018 0 0 0 2.122-2.136C24 16.266 24 12 23.498 12c0-4.266 0-7.734-.417-5.814zM9.993 15.341V8.659L15.656 12l-5.663 3.341z"/></svg>
+                  <Youtube className="w-4 h-4 md:w-5 md:h-5" />
+                </a>
+              )}
+              {instagramLink && (
+                <a href={getSafeUrl(instagramLink)} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-pink-600 transition-colors">
+                  <Instagram className="w-4 h-4 md:w-5 md:h-5" />
                 </a>
               )}
             </div>
