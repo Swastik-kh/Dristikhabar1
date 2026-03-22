@@ -117,7 +117,7 @@ function App() {
     // 3. Users (Authentication & Management)
     const usersCollection = collection(db, "users");
     const unsubscribeUsers = onSnapshot(usersCollection, async (snapshot) => {
-      const firebaseUsers = snapshot.docs.map(doc => ({
+      const firebaseUsers: any[] = snapshot.docs.map(doc => ({
         ...doc.data(),
         // CRITICAL: Ensure 'username' matches the document ID. 
         // This guarantees that deleting by 'username' deletes the correct document.
@@ -140,12 +140,29 @@ function App() {
         }
       }
       
+      // SECURITY: If the currently logged-in user's password has changed in the database
+      // (e.g., changed by another admin or from another device), log them out.
+      // We use a functional update or check against the latest state to avoid stale closures.
+      setUser(prevUser => {
+        if (prevUser) {
+          const currentUserInDb = firebaseUsers.find((u: any) => u.username === prevUser.username);
+          // If user still exists but password doesn't match, logout
+          if (currentUserInDb && currentUserInDb.password !== prevUser.password) {
+            console.log("Security: Password mismatch detected in DB. Logging out...");
+            // We can't call handleLogout directly here easily without side effects, 
+            // but returning null will logout the user.
+            setTimeout(() => alert('तपाईंको पासवर्ड परिवर्तन गरिएको छ। कृपया पुनः लगइन गर्नुहोस्।'), 100);
+            return null;
+          }
+        }
+        return prevUser;
+      });
+
       setUsers(firebaseUsers);
       
     }, (error) => {
       console.error("Error fetching users from Firestore:", error);
-      // Fallback to mock users if offline/error to allow at least local admin login
-      setUsers(MOCK_USERS);
+      // SECURITY: Removed fallback to MOCK_USERS to prevent default password login on network error
     });
 
     return () => {

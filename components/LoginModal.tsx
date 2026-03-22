@@ -23,10 +23,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
     // 1. Try to find user in the loaded Database list
     let user = users.find(u => u.username === cleanUsername && u.password === cleanPassword);
     
-    // 2. FAILSAFE: If database is empty, slow, or 'admin' is missing, 
-    // manually allow login for 'admin'/'admin'.
-    if (!user && cleanUsername === 'admin' && cleanPassword === 'admin') {
-      console.log("Using Failsafe Admin Login");
+    // 2. FAILSAFE: Only allow 'admin'/'admin' if the admin user is NOT in the database.
+    // This prevents the default password from working after it has been changed in the DB.
+    const adminUserExistsInDb = users.some(u => u.username === 'admin');
+    
+    if (!user && !adminUserExistsInDb && cleanUsername === 'admin' && cleanPassword === 'admin') {
+      console.log("Using Failsafe Admin Login (Admin missing from DB)");
       user = { 
         username: 'admin', 
         password: 'admin', 
@@ -113,7 +115,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
           </form>
 
           <div className="mt-6 text-center text-xs text-gray-400">
-            <p>Admin लगइन: user: admin / pass: admin</p>
+            <p>Admin लगइन (Default): user: admin / pass: admin</p>
+            <p className="mt-1">पासवर्ड परिवर्तन गरेपछि पुरानो पासवर्डले काम गर्ने छैन।</p>
           </div>
         </div>
       </div>
