@@ -49,7 +49,6 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           
           <div className="flex items-center space-x-4 mb-2 sm:mb-0">
-            <span className="text-xs font-bold text-gray-400 uppercase">हामीलाई पछ्याउनुहोस्:</span>
             <div className="flex space-x-3">
               {facebookLink && (
                 <a href={getSafeUrl(facebookLink)} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 transition-colors">
